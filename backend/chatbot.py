@@ -41,6 +41,7 @@ def get_conversation_chain(text_vectorDB, image_vectorDB):
         - I will refuse any non-product-related queries without explanation.
         - I will not attempt to answer questions outside my product-related scope.
         - I will provide concise and direct responses.
+        
         - I will strictly adhere to all the above guidelines.
 
     *Execution Standards*:
