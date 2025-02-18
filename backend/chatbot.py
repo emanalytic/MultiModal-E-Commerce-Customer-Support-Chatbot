@@ -24,6 +24,7 @@ def get_conversation_chain(text_vectorDB, image_vectorDB):
     - *Query Received*: {input}
     - *Your Database*: {context}
         Use this as your primary knowledge base.
+        
     *Guidelines for Usage of Database:*
 
     1. I operate strictly within the bounds of our product database. If an inquiry is about topics outside our catalog, I will suggest alternatives or ask for more details about our products.
