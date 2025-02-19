@@ -30,16 +30,13 @@ class MultimodalShoppingAssistant:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model, self.preprocess = clip.load("ViT-B/32", device=self.device)
 
-        # Load image index
         self.image_index = faiss.read_index(image_index_path)
 
-        # Load product URLs
         with open(product_urls_path, 'rb') as f:
             self.product_urls = pickle.load(f)
 
         self.conversation_chain, self.memory = self.get_conversation_chain()
 
-        # Calibrate microphone for voice input
         with self.microphone as source:
             self.recognizer.adjust_for_ambient_noise(source, duration=2)
 
@@ -76,7 +73,6 @@ class MultimodalShoppingAssistant:
         return conversation_chain, memory
 
     def get_voice_input(self):
-        """Handle voice input from user"""
         try:
             with self.microphone as source:
                 print("\nListening... (Speak now)")
@@ -121,6 +117,7 @@ class MultimodalShoppingAssistant:
             return None
 
     def find_similar_images(self, query_image_path, num_results=3):
+        """Find similar images using FAISS and CLIP embeddings"""
         try:
             query_embedding = self.get_image_embedding(query_image_path)
             if query_embedding is None:
@@ -144,12 +141,12 @@ class MultimodalShoppingAssistant:
             return []
 
     def process_query(self, user_input, image_path=None):
+        """Process user query based on input type"""
         if not user_input and not image_path:
             return "I'm sorry, I couldn't process that. Could you please try again?"
 
         response_parts = []
 
-        # Handle image query
         if image_path:
             similar_products = self.find_similar_images(image_path)
             if similar_products:
@@ -202,7 +199,6 @@ class MultimodalShoppingAssistant:
                 user_input = None
                 image_path = None
 
-                # Handle different input methods
                 if input_method == 'voice':
                     user_input = self.get_voice_input()
                 elif input_method == 'text':
