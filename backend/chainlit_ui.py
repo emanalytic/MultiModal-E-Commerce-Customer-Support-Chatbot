@@ -12,8 +12,8 @@ import numpy as np
 
 input_dict = {
     'vectorDB_path': 'faiss_index',
-    'image_index_path': 'image_faiss.index',
-    'product_urls_path': 'products_url.pkl'
+    'image_index_path': 'image_index/image_faiss.index',
+    'product_urls_path': 'image_index/products_url.pkl'
 }
 
 SAMPLE_RATE = 44100
