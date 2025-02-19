@@ -223,15 +223,15 @@ class MultimodalShoppingAssistant:
             print("\nThank you for using Multimodal Shopping Assistant. Goodbye!")
 
 
-def main():
-    input_dict = {
-        'vectorDB_path': 'faiss_index/',
-        'image_index_path': 'image_faiss.index',
-        'product_urls_path': 'products_url.pkl'
-    }
-    assistant = MultimodalShoppingAssistant(**input_dict)
-    assistant.run()
-
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     input_dict = {
+#         'vectorDB_path': 'faiss_index/',
+#         'image_index_path': 'image_faiss.index',
+#         'product_urls_path': 'products_url.pkl'
+#     }
+#     assistant = MultimodalShoppingAssistant(**input_dict)
+#     assistant.run()
+#
+#
+# if __name__ == "__main__":
+#     main()
