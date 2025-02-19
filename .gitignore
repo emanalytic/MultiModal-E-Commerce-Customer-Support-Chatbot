@@ -170,4 +170,7 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 data
-
+image_index
+faiss_index
+.chainlit
+.files
