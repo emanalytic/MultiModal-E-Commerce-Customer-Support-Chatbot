@@ -173,3 +173,4 @@ data
 faiss_index
 .chainlit
 .files
+image_index
