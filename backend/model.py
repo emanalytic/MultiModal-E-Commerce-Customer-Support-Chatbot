@@ -72,11 +72,16 @@ class MultimodalShoppingAssistant:
 
         return conversation_chain, memory
 
-    def get_voice_input(self):
+    def get_voice_input(self, audio_path=None):
+
         try:
-            with self.microphone as source:
-                print("\nListening... (Speak now)")
-                audio = self.recognizer.listen(source, timeout=8, phrase_time_limit=10)
+            if audio_path:
+                with sr.AudioFile(audio_path) as source:
+                    audio = self.recognizer.record(source)
+            else:
+                with self.microphone as source:
+                    print("\nListening... (Speak now)")
+                    audio = self.recognizer.listen(source, timeout=8, phrase_time_limit=10)
 
             print("Processing speech...")
             text = self.recognizer.recognize_google(audio)
@@ -179,55 +184,55 @@ class MultimodalShoppingAssistant:
 
         return "\n\n".join(response_parts)
 
-    def run(self):
-        print("\nMultimodal Shopping Assistant is ready!")
-        print("Available commands:")
-        print("1. 'text' - Enter text query")
-        print("2. 'voice' - Use voice input")
-        print("3. 'image' - Search with an image")
-        print("4. 'exit' - Quit the assistant")
-
-        try:
-            while True:
-                print("\nSelect input method (text/voice/image/exit):", end=" ")
-                input_method = input().lower().strip()
-
-                if input_method == 'exit':
-                    print("Exiting assistant.")
-                    break
-
-                user_input = None
-                image_path = None
-
-                if input_method == 'voice':
-                    user_input = self.get_voice_input()
-                elif input_method == 'text':
-                    user_input = self.get_text_input()
-                elif input_method == 'image':
-                    image_path = input("Please enter the path to your image: ")
-                    supplementary_text = input("Would you like to add any text description? (Press Enter to skip): ")
-                    user_input = supplementary_text if supplementary_text.strip() else None
-                else:
-                    print("Invalid input method. Please try again.")
-                    continue
-
-                if user_input or image_path:
-                    response = self.process_query(user_input, image_path)
-                    print('-' * 80)
-                    print('Assistant:', response)
-                    print('-' * 80)
-
-                time.sleep(0.5)
-
-        except KeyboardInterrupt:
-            print("\nThank you for using Multimodal Shopping Assistant. Goodbye!")
-
-
+#     def run(self):
+#         print("\nMultimodal Shopping Assistant is ready!")
+#         print("Available commands:")
+#         print("1. 'text' - Enter text query")
+#         print("2. 'voice' - Use voice input")
+#         print("3. 'image' - Search with an image")
+#         print("4. 'exit' - Quit the assistant")
+#
+#         try:
+#             while True:
+#                 print("\nSelect input method (text/voice/image/exit):", end=" ")
+#                 input_method = input().lower().strip()
+#
+#                 if input_method == 'exit':
+#                     print("Exiting assistant.")
+#                     break
+#
+#                 user_input = None
+#                 image_path = None
+#
+#                 if input_method == 'voice':
+#                     user_input = self.get_voice_input()
+#                 elif input_method == 'text':
+#                     user_input = self.get_text_input()
+#                 elif input_method == 'image':
+#                     image_path = input("Please enter the path to your image: ")
+#                     supplementary_text = input("Would you like to add any text description? (Press Enter to skip): ")
+#                     user_input = supplementary_text if supplementary_text.strip() else None
+#                 else:
+#                     print("Invalid input method. Please try again.")
+#                     continue
+#
+#                 if user_input or image_path:
+#                     response = self.process_query(user_input, image_path)
+#                     print('-' * 80)
+#                     print('Assistant:', response)
+#                     print('-' * 80)
+#
+#                 time.sleep(0.5)
+#
+#         except KeyboardInterrupt:
+#             print("\nThank you for using Multimodal Shopping Assistant. Goodbye!")
+#
+#
 # def main():
 #     input_dict = {
-#         'vectorDB_path': 'faiss_index/',
-#         'image_index_path': 'image_faiss.index',
-#         'product_urls_path': 'products_url.pkl'
+#         'vectorDB_path': 'faiss_index',
+#         'image_index_path': 'image_index/image_faiss.index',
+#         'product_urls_path': 'image_index/products_url.pkl'
 #     }
 #     assistant = MultimodalShoppingAssistant(**input_dict)
 #     assistant.run()

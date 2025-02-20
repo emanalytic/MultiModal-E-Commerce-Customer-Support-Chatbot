@@ -1,83 +1,76 @@
+# chainlit_app.py
 import chainlit as cl
-from model import MultimodalShoppingAssistant  # Replace with your actual module name
-import tempfile
-import os
+import sounddevice as sd
+import numpy as np
+import wave
+from model import MultimodalShoppingAssistant
 
-input_dict = {
-    'vectorDB_path': 'faiss_index',
-    'image_index_path': 'image_index/image_faiss.index',
-    'product_urls_path': 'image_index/products_url.pkl'
-}
-assistant = MultimodalShoppingAssistant(**input_dict)
 
+# Initialize the assistant when the chat starts
 @cl.on_chat_start
 async def start_chat():
-    welcome_message = """Welcome to the Multimodal Shopping Assistant! 🛍️
+    input_dict = {
+        'vectorDB_path': 'faiss_index',
+        'image_index_path': 'image_index/image_faiss.index',
+        'product_urls_path': 'image_index/products_url.pkl'
+    }
+    assistant = MultimodalShoppingAssistant(**input_dict)
+    cl.user_session.set("assistant", assistant)
 
-You can interact with me in the following ways:
-- **Text Input**: Type your query in the chat box.
-- **Voice Input**: Click the 🎤 button to speak.
-- **Image Input**: Upload an image to find similar products.
+    # Add a microphone icon button
+    actions = [
+        cl.Action(name="start_recording", value="start_recording", label="🎤", payload={"action": "start_recording"})
+    ]
+    await cl.Message(content="Click the microphone icon to start recording your voice.", actions=actions).send()
 
-How can I assist you today?"""
 
-    await cl.Message(content=welcome_message).send()
-
+# Handle user messages
 @cl.on_message
 async def handle_message(message: cl.Message):
+    assistant = cl.user_session.get("assistant")
     user_input = message.content
     image_path = None
 
+    # Check if the user uploaded an image
     if message.elements:
         for element in message.elements:
             if "image" in element.mime:
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
-                    temp_file.write(element.content)
-                    image_path = temp_file.name
+                image_path = element.path
+                break
 
+    # Process the query
     response = assistant.process_query(user_input, image_path)
-
     await cl.Message(content=response).send()
 
-    if image_path and os.path.exists(image_path):
-        os.remove(image_path)
 
+# Handle button clicks using @cl.action_callback
+@cl.action_callback("start_recording")
+async def on_action_callback(action: cl.Action):
+    await cl.Message(content="Recording started. Speak now...").send()
 
-@cl.action_callback("voice_input")
-async def on_voice_input(action: cl.Action):
-    voice_input = assistant.get_voice_input()
-    if voice_input:
-        await cl.Message(content=f"🎤 You said: {voice_input}").send()
-        response = assistant.process_query(voice_input)
-        await cl.Message(content=response).send()
-    else:
-        await cl.Message(content="Sorry, I couldn't understand your voice input. Please try again.").send()
+    # Audio recording settings
+    sample_rate = 16000  # 16 kHz
+    duration = 10  # Maximum recording duration in seconds
 
+    audio_data = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype='float32')
+    sd.wait()
 
-@cl.action_callback("image_input")
-async def on_image_input(action: cl.Action):
-    await cl.Message(content="Please upload an image to find similar products.").send()
+    audio_path = "user_audio.wav"
+    with wave.open(audio_path, 'wb') as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(sample_rate)
+        wf.writeframes((audio_data * 32767).astype(np.int16))
 
+    # Process the audio file
+    assistant = cl.user_session.get("assistant")
+    user_input = assistant.get_voice_input(audio_path)
 
-@cl.action_callback("exit")
-async def on_exit(action: cl.Action):
-    await cl.Message(content="Thank you for using the Multimodal Shopping Assistant. Goodbye!").send()
-    await cl.close()
+    if not user_input:
+        await cl.Message(content="Sorry, I couldn't process the voice input. Please try again.").send()
+        return
 
+    # Process the query
+    response = assistant.process_query(user_input)
+    await cl.Message(content=response).send()
 
-@cl.on_chat_end
-async def on_chat_end():
-    await cl.Message(content="Session ended. Thank you for using the Multimodal Shopping Assistant!").send()
-
-
-async def main():
-    actions = [
-        cl.Action(name="voice_input", value="voice_input", label="🎤 Voice Input"),
-        cl.Action(name="image_input", value="image_input", label="🖼️ Image Input"),
-        cl.Action(name="exit", value="exit", label="🚪 Exit")
-    ]
-
-    await cl.Message(content="Choose an input method:", actions=actions).send()
-
-if __name__ == "__main__":
-    cl.run(main)
