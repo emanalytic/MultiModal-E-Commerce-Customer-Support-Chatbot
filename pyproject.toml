@@ -17,6 +17,7 @@ langchain-groq = "^0.2.4"
 speechrecognition = "^3.14.1"
 pyaudio = "^0.2.14"
 chainlit = "^2.2.1"
+faiss-cpu = "^1.10.0"
 
 
 [build-system]
