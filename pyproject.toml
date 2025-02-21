@@ -18,6 +18,8 @@ speechrecognition = "^3.14.1"
 pyaudio = "^0.2.14"
 chainlit = "^2.2.1"
 faiss-cpu = "^1.10.0"
+torchvision = "^0.21.0"
+torch = "^2.6.0"
 
 
 [build-system]
