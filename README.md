@@ -1,10 +1,16 @@
 # Multimodal E-Commerce Customer Service Chatbot 🛍️
 
 ## Problem:
-Customers interact with brands via text, images, and voice—but most chatbots only handle text. This creates a fragmented experience and limits accessibility.
+Customers interact with brands via text, images, and voice—but most chatbots only handle text. This fragmented approach limits accessibility and creates inconsistent user experiences.
 
 ## 🌐 Solution:
-A state-of-the-art chatbot designed to handle multimodal inputs—including text, voice and images to provide personalized shopping recommendations and support across your e-commerce platform. It delivers personalized product recommendations, answers FAQs, and support across your e-commerce platform. 
+A unified, multimodal customer service Chatbot aims to solve real-world challenges in e-commerce. It is designed to handle multimodal inputs—including text, voice and images to provide:
+
+✅ Personalized shopping recommendations
+
+✅ Instant FAQ responses
+
+✅ Seamless customer support across your e-commerce platform.
 
 ## 🛠️ Tools & Technologies
 - **LangChain:** To orchestrate various language processing tasks
@@ -26,7 +32,7 @@ A state-of-the-art chatbot designed to handle multimodal inputs—including text
 
 1. **Text Input:** Users type queries, and the chatbot responds with product suggestions or FAQ answers.
 2. **Image Input:** Using AI models like CLIP, the chatbot analyzes uploaded images (like product photos) to find similar items.
-3. **Voice Input:** Integrated speech-to-text library lets users speak their queries which makes interactions smooth and accessible.
+3. **Voice Input:** Integrated speech-to-text library which lets users speak their queries which makes interactions smooth and accessible.
 
 ```mermaid
 ---
@@ -77,14 +83,16 @@ This project uses Poetry for dependency management and packaging. Follow these s
    ```bash
    poetry install
    ```
-## Running the Project
+## ▶️ Running the Project
 4. **Set up your environment variables:**
    ```bash
    GROQ_API_KEY= your_api_key_here  
    ```
 5. **Run the Chainlit App locally:**
    ```bash
-   poetry run chainlit run backend/chainlit_ui.py -w
+   poetry run chainlit run chainlit_ui.py -w
    ```
-   *For voice mode, run the app via terminal with `app.py` using Poetry as well.*
-
+   *Currently, Chainlit lacks built-in audio support.For voice mode, run the app via terminal with `main.py` using Poetry as well.*
+   ```bash
+   poetry run python main.py
+   ```
