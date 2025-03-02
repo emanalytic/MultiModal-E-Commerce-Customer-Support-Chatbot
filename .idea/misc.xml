@@ -3,4 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="agent" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (MultiModal-E-Commerce-Customer-Support-Chatbot)" project-jdk-type="Python SDK" />
 </project>
