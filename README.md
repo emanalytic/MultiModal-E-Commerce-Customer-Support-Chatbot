@@ -12,7 +12,7 @@ A unified, multimodal customer service Chatbot aims to solve real-world challeng
 
 - Seamless customer support across your e-commerce platform.
 
-## 🛠️ Tools & Technologies
+##  Tools & Technologies
 - **LangChain:** To orchestrate various language processing tasks
 - **Groq API:** For generating responses (Groq / Llama3)
 - **Chainlit:** To build interactive, user-friendly chatbot interface
@@ -83,7 +83,7 @@ This project uses Poetry for dependency management and packaging. Follow these s
    ```bash
    poetry install
    ```
-## ▶ Running the Project
+## Running the Project
 4. **Set up your environment variables:**
    ```bash
    GROQ_API_KEY= your_api_key_here  
