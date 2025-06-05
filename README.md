@@ -1,7 +1,7 @@
 # Multimodal E-Commerce Customer Service Chatbot 
 
 ## Problem:
-Customers interact with brands via text, images, and voice—but most chatbots only handle text. This fragmented approach limits accessibility and creates inconsistent user experiences.
+Customers interact with brands via text, images, and voice but most chatbots only handle text. This fragmented approach limits accessibility and creates inconsistent user experiences.
 
 ##  Solution:
 A unified, multimodal customer service Chatbot aims to solve real-world challenges in e-commerce. It is designed to handle multimodal inputs—including text, voice and images to provide:
