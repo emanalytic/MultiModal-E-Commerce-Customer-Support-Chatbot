@@ -3,14 +3,14 @@
 ## Problem:
 Customers interact with brands via text, images, and voice—but most chatbots only handle text. This fragmented approach limits accessibility and creates inconsistent user experiences.
 
-## 🌐 Solution:
+##  Solution:
 A unified, multimodal customer service Chatbot aims to solve real-world challenges in e-commerce. It is designed to handle multimodal inputs—including text, voice and images to provide:
 
-✅ Personalized shopping recommendations
+- Personalized shopping recommendations
 
-✅ Instant FAQ responses
+- Instant FAQ responses
 
-✅ Seamless customer support across your e-commerce platform.
+- Seamless customer support across your e-commerce platform.
 
 ## 🛠️ Tools & Technologies
 - **LangChain:** To orchestrate various language processing tasks
@@ -83,7 +83,7 @@ This project uses Poetry for dependency management and packaging. Follow these s
    ```bash
    poetry install
    ```
-## ▶️ Running the Project
+## ▶ Running the Project
 4. **Set up your environment variables:**
    ```bash
    GROQ_API_KEY= your_api_key_here  
